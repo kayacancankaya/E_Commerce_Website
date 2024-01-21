@@ -1,0 +1,255 @@
+﻿@model IEnumerable<Category>
+@inject IHttpContextAccessor Accessor
+
+@{
+	var username = Accessor.HttpContext.Session.GetString("Email");
+}
+
+<!-- header area start -->
+<div class="header-top">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-md-3 col-lg-3">
+				<div class="logo-area">
+					<a href="/Home/Index"><img src="~/img/logo.png" alt="logo" /> </a>
+					<span style="color:white;">@username</span>
+				</div>
+			</div>
+			<div class="col-sm-12 col-md-9 col-lg-9">
+				<div class="top-nav-area">
+					<ul>
+
+						<li>
+							<a href="~/Home/NewProducts">
+								<i class="fa fa-tag"></i>
+								<div class="nav-select">
+									<div class="text_menu">
+										YENİ ÜRÜNLER
+									</div>
+								</div>
+							</a>
+						</li>
+
+						<li>
+							<a href="~/Home/SpecialProducts">
+								<i class="fa fa-star"></i>
+								<div class="nav-select">
+									<div class="text_menu">
+										ÖZELLER
+									</div>
+								</div>
+							</a>
+						</li>
+
+						<li>
+							<a href="~/Home/DiscountedProducts">
+								<i class="fa fa-level-down"></i>
+								<div class="nav-select">
+									<div class="text_menu">
+										EN ÇOK İNDİRİM
+									</div>
+								</div>
+							</a>
+						</li>
+
+						<li>
+							<a href="~/Home/HighlightedProducts">
+								<i class="fa fa-heart"></i>
+								<div class="nav-select">
+									<div class="text_menu">
+										ÖNE ÇIKANLAR
+									</div>
+								</div>
+							</a>
+						</li>
+
+
+						<li>
+							<a href="~/Home/TopSellerProducts">
+								<i class="fa fa-arrow-up"></i>
+								<div class="nav-select">
+									<div class="text_menu">
+										ÇOK SATANLAR
+									</div>
+								</div>
+							</a>
+						</li>
+
+						<li>
+							<a href="~/Home/MyOrders">
+								<i class="fa fa-gift"></i>
+								<div class="nav-select">
+									<div class="text_menu">
+										SİPARİŞLERİM
+									</div>
+								</div>
+							</a>
+						</li>
+
+						<li>
+							<a href="~/Home/Cart">
+								<div class="cart_area">
+									<i class="fa fa-shopping-cart"></i>
+									<div class="nav-select">
+										<div class="text_menu">
+											SEPETİM
+										</div>
+									</div>
+								</div>
+							</a>
+							@* hoverda sepeti gösterir
+
+							<div class="cart-sub">
+							<div class="all-cart">
+							<p>1x <a href="index.html#">Sollicitudin Rhoncus</a> <span>$150.00</span> </p>
+							<p>2x <a href="index.html#">Sollicitudin Rhoncus</a> <span>$600.00</span> </p>
+							</div>
+							<h3>3 product<span>Total <span>$1350.00</span></span></h3>
+							<div class="sub-button">
+							<a href="index.html#">SEPETE GİT</a>
+							</div>
+							</div>*@
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<!-- main menu area start  -->
+<div class="main-menu-area ">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-10 col-sm-8 col-md-3 col-lg-3">
+				<div class="menu-cat-area">
+					<h3 class="nk-module-title"><span>Category</span></h3>
+					<div class="nk-all-items" style="display:none;">
+						<div class="sp-module-content">
+							<!-- treeview -->
+							<div class="vina-treeview-virtuemart" id="vina-treeview-virtuemart93">
+								<ul class="level0 treeview">
+									@foreach (var item in Model.Where(i=>i.ParentID == 0))
+									{
+										<li class="expandable">
+											<div class="hitarea expandable-hitarea"></div>
+											<a title="@item.CategoryName" asp-controller="Home" asp-action="CategoryPage" asp-route-categoryID="@item.CategoryID">
+												<span class="catTitle ">@item.CategoryName</span>
+											</a>
+
+											@foreach(var subitem in Model.Where(i=>i.ParentID == item.CategoryID))
+											{
+												<ul class="sub-menu treeview" style="display:none;">
+													<li class="expandable">
+														<div class="hitarea expandable-hitarea"></div>
+														<a title="@subitem.CategoryName" asp-controller="Home" asp-action="CategoryPage" asp-route-categoryID="@subitem.CategoryID">
+															<span class="catTitle ">@subitem.CategoryName</span>
+														</a>
+													</li>
+												</ul>
+											}
+
+										</li>
+									}
+
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-2 col-sm-3 col-md-9 col-lg-9">
+				<nav>
+					<ul>
+						<li style="color:white;font-weight:bold;display:flex;align-content:center">
+							FAYDALI LİNKLER
+							<div class="sp-dropdown-inner">
+								<ul class="sp-dropdown-items">
+									<li class="sp-menu-item"><a href="/Home/PharmacyOnDuty">NÖBETÇİ ECZANELER</a></li>
+									<li class="sp-menu-item"><a href="/Home/ArtAndCulture">KÜLTÜR SANAT</a></li>
+								</ul>
+							</div>
+						</li>
+						<li><a href="~/Home/Login">GİRİŞ</a></li>
+						<li><a href="~/Home/Logout">ÇIKIŞ</a></li>
+						<li><a href="~/Home/Register">ÜYE OL</a></li>
+						<li><a href="~/Home/AboutUs">HAKKIMIZDA</a></li>
+						<li><a href="~/Home/ContactUs">İLETİŞİM</a></li>
+						<li><a href="~/Home/DetailedSearch">DETAYLI ARAMA</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- main menu area end  -->
+<!-- mobile-menu-area start -->
+<div class="mobile-menu-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="mobile-menu">
+					<nav id="dropdown">
+						<ul>
+							<li>
+								<a>FAYDALI LİNKLER</a>
+								<ul>
+									<li class="sp-menu-item"><a href="/Home/PharmacyOnDuty">NÖBETÇİ ECZANELER</a></li>
+									<li class="sp-menu-item"><a href="/Home/ArtAndCulture">KÜLTÜR SANAT</a></li>
+								</ul>
+							</li>
+							<li><a href="Home/Login">GİRİŞ</a></li>
+							<li><a href="Home/Logout">ÇIKIŞ</a></li>
+							<li><a href="Home/Register">ÜYE OL</a></li>
+							<li><a href="Home/AboutUs">HAKKIMIZDA</a></li>
+							<li><a href="Home/ContactUs">İLETİŞİM</a></li>
+							<li><a href="Home/DetailedSearch">DETAYLI ARAMA</a></li>
+							<li style="display:none"><a href="Admin/Login">ADMIN PANEL</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- mobile-menu-area end -->
+<!-- search area start  -->
+<div class="nk-search-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-0 col-sm-0 col-md-3 col-lg-3">
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+				<div class="nk-search">
+					<div class="select-wrapper">
+						<select class="select-nksearch">
+							<option selected="selected">All Categories</option>
+							<option>Baby</option>
+							<option>Camera &amp; Camcorder</option>
+							<option>-- Bags</option>
+							<option>---- Blazers</option>
+							<option>---- Bootees  Bags</option>
+							<option>---- Coats &amp; Jackets</option>
+							<option>Fashion &amp; Accessories</option>
+							<option>-- Rings</option>
+							<option>---- Diamond Bracelets</option>
+							<option>Health &amp; Beauty</option>
+							<option>-- Clothing</option>
+							<option>-- Handbags</option>
+							<option>---- Kids</option>
+							<option>---- Sandals</option>
+						</select>
+					</div>
+					<div class="search_input">
+						<input type="text" placeholder="Type and hit enter" />
+						<div class="search-button-wrapper">
+							<button class="search-button" type="submit"><i class="fa fa-search"></i></button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

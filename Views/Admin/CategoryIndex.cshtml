@@ -1,0 +1,106 @@
+﻿
+@{
+    ViewData["Title"] = "CategoryIndex";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@model List<Category>
+<div class="row">
+	<div class="col-md-2"></div>
+	<div class="col-md-8">
+		<p><a class="btn btn-default" asp-controller="admin" asp-action="CategoryCreate">Yeni Kategori</a></p>
+	
+		<div class="portlet box purple">
+		
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-cogs"></i>Kategori Listesi
+				</div>
+				<div class="tools">
+					<a href="javascript:;" class="collapse">
+					</a>
+					<a href="#portlet-config" data-toggle="modal" class="config">
+					</a>
+					<a href="javascript:;" class="reload">
+					</a>
+					<a href="javascript:;" class="remove">
+					</a>
+				</div>
+			</div>
+			<div class="portlet-body">
+				<div class="table-scrollable">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>
+									ID
+								</th>
+								<th>
+									Kategori Adı
+								</th>
+								<th>
+									Aktif Mi
+								</th>
+								<th>
+									İşlem
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+						
+								@foreach (var item in Model.Where(item => item.ParentID == 0))
+								{
+
+								<tr >
+										<td>@item.CategoryID</td>
+									<td><span style="color:darkblue;font-weight:bold;">@item.CategoryName</span></td>
+									@if (item.Active)
+									{
+										<td style="color:green;font-weight:bold;">AKTİF</td>
+									}
+									@if (!item.Active)
+									{
+										<td style="color:red;font-weight:bold;">PASİF</td>
+									}
+										<td>
+										<a class="btn btn-arrow-link" asp-action="CategoryEdit" asp-route-id="@item.CategoryID">Düzenle</a>
+										<a class="btn btn-primary" asp-action="CategoryDetails" asp-route-id="@item.CategoryID">Detay</a>
+										<a class="btn btn-danger" asp-action="CategoryDelete" asp-route-id="@item.CategoryID">Sil</a>
+
+										</td>
+								</tr>
+								int parentID = item.CategoryID;
+								var subItemList = Model.Where(subitem => subitem.ParentID == parentID).ToList();
+								@foreach (var subitem in subItemList)
+									{
+										
+											<tr>
+												<td>@subitem.CategoryID</td>
+												<td><span style="color:orange;font-weight:bold;">@subitem.CategoryName</span></td>
+												@if (subitem.Active)
+												{
+													<td style="color:green;font-weight:bold;">AKTİF</td>
+												}
+												@if (!subitem.Active)
+												{
+												<td style="color:red;font-weight:bold;">PASİF</td>
+												}
+										<td>
+											<a class="btn btn-arrow-link" asp-action="CategoryEdit" asp-route-id="@subitem.CategoryID">Düzenle</a>
+											<a class="btn btn-primary" asp-action="CategoryDetails" asp-route-id="@subitem.CategoryID">Detay</a>
+											<a class="btn btn-danger" asp-action="CategoryDelete" asp-route-id="@subitem.CategoryID">Sil</a>
+
+										</td>
+											</tr>
+										
+									}
+								}
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

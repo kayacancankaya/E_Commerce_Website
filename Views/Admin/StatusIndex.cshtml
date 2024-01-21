@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewData["Title"] = "Durum Liste";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@model List<Status>
+
+<div class="row">
+	<div class="col-md-2"></div>
+	<div class="col-md-8">
+		<p><a class="btn btn-default" asp-controller="admin" asp-action="StatusCreate">Yeni Durum</a></p>
+
+		<div class="portlet box red">
+
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-cogs"></i>Durum Listesi
+				</div>
+				<div class="tools">
+					<a href="javascript:;" class="collapse">
+					</a>
+					<a href="#portlet-config" data-toggle="modal" class="config">
+					</a>
+					<a href="javascript:;" class="reload">
+					</a>
+					<a href="javascript:;" class="remove">
+					</a>
+				</div>
+			</div>
+			<div class="portlet-body">
+				<div class="table-scrollable">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>
+									ID
+								</th>
+								<th>
+									Durum Adı
+								</th>
+								<th>
+									Aktif Mi
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							@foreach (var item in Model)
+							{
+
+								<tr>
+									<td style="vertical-align:middle">@item.StatusID</td>
+									<td style="font-weight:bold;vertical-align:middle">@item.StatusName</td>
+									@if (item.Active)
+									{
+										<td style="color:green;font-weight:bold;vertical-align:middle">AKTİF</td>
+									}
+									@if (!item.Active)
+									{
+										<td style="color:red;font-weight:bold;vertical-align:middle">PASİF</td>
+									}
+									<td>
+										<a class="btn btn-arrow-link" asp-action="StatusEdit" asp-route-id="@item.StatusID">Düzenle</a>
+										<a class="btn btn-danger" asp-action="StatusDelete" asp-route-id="@item.StatusID">Sil</a>
+									</td>
+								</tr>
+							}
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

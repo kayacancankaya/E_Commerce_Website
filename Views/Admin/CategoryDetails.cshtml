@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewData["Title"] = "CategoryDetails";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@model Category
+
+
+<div class="row">
+
+    <div class="col-md-2"></div>
+
+    <div class="col-md-8">
+
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-bookmark" style="color:lightgray;font-weight:bold;padding-right:10px;"></i><span style="color:darkblue;font-weight:bold;padding-right:10px;">@ViewBag.categoryname </span>KATEGORİSİNİN BİLGİLERİ
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse">
+                    </a>
+                    <a href="#portlet-config" data-toggle="modal" class="config">
+                    </a>
+                    <a href="javascript:;" class="reload">
+                    </a>
+                    <a href="javascript:;" class="remove">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body flip-scroll">
+                <table class="table table-bordered table-striped table-condensed flip-content">
+                    <thead class="flip-content">
+                        <tr>
+                            <th width="20%">
+                               Kategori Numarası
+                            </th>
+                            <td>
+                                @Html.DisplayFor(model => model.CategoryID)
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="20%">
+                                @Html.DisplayNameFor(model => model.CategoryName)
+                            </th>
+                            <td>
+                                @Html.DisplayFor(model => model.CategoryName)
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="20%">
+                                Üst Kategori Adı
+                            </th>
+                            <td>
+                                @* @{
+                                    string kategoriUstAdi = string.Empty;
+                                    if(Model != null)
+                                    {
+                                        if(Model.ParentID == 0)
+                                        {
+                                            kategoriUstAdi = "Ana Kategori";
+                                            @kategoriUstAdi
+                                        }
+                                        else 
+                                        {
+                                            using(iakademi38Context context = new iakademi38Context())
+                                            {
+                                               kategoriUstAdi = context.Categories.FirstOrDefault(c => c.CategoryID == Model.ParentID).CategoryName;
+                                                @kategoriUstAdi
+                                            }
+                                        }
+                                    }
+                                } *@
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="20%">
+                                @Html.DisplayNameFor(model => model.Active)
+                            </th>
+                            <td>
+                                @Html.DisplayFor(model => model.Active)
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+                <a asp-action="CategoryIndex" class="btn btn-primary">KATEGORİ LİSTESİ</a>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+</div>

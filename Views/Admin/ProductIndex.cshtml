@@ -1,0 +1,168 @@
+﻿
+@{
+	ViewData["Title"] = "Ürün Listesi";
+	Layout = "~/Views/Shared/AdminLayout.cshtml";
+	iakademi38Context _context = new();
+	string CategoryName = "", BrandName="",StatusName="";
+}
+
+@model List<Product>
+
+
+	<div class="col-md-12">
+		<p><a class="btn btn-default" asp-controller="admin" asp-action="ProductCreate">Yeni Ürün</a></p>
+
+		<div class="portlet box purple">
+
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-cogs"></i>Ürün Listesi
+				</div>
+				<div class="tools">
+					<a href="javascript:;" class="collapse">
+					</a>
+					<a href="#portlet-config" data-toggle="modal" class="config">
+					</a>
+					<a href="javascript:;" class="reload">
+					</a>
+					<a href="javascript:;" class="remove">
+					</a>
+				</div>
+			</div>
+			<div class="portlet-body">
+				<div class="table-scrollable">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>
+									ID
+								</th>
+								<th>
+									Ürün
+								</th>
+								<th>
+									Fiyat
+								</th>
+								<th>
+									Kat
+								</th>
+								<th>
+									Marka
+								</th>
+								<th>
+									Stok
+								</th>
+								<th>
+									İndrm
+								</th>
+								<th>
+									Statü
+								</th>
+								<th>
+									An.Kel.
+								</th>
+								<th>
+									KDV
+								</th>
+								<th>
+									Alakalı
+								</th>
+								<th>
+									Not
+								</th>
+								<th>
+									Resim
+								</th>
+								<th>
+									Akt
+								</th>
+								<th>
+									
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							@foreach (var item in Model)
+							{
+
+								<tr>
+									<td>@item.ProductID</td>
+									<td>@item.ProductName</td>
+									<td>@item.UnitPrice</td>
+									<td>
+										@{
+											CategoryName = _context.Categories.FirstOrDefault(c => c.CategoryID == item.CategoryID).CategoryName;
+											@CategoryName
+										}
+
+									</td>
+									<td>
+										@{
+											BrandName = _context.Suppliers.FirstOrDefault(c => c.SupplierID == item.SupplierID).BrandName;
+											@BrandName
+										}
+
+									</td>
+									<td>@item.Stock</td>
+									<td>@item.Discount</td>
+									<td>@{
+											StatusName = _context.Statuses.FirstOrDefault(c => c.StatusID == item.StatusID).StatusName;
+
+											if(item.StatusID==1)
+											{
+												<span style="background-color:red;color:white">@StatusName</span>
+											}
+											if(item.StatusID==2)
+											{
+												<span style="background-color:#aa77ff;color:white">@StatusName</span>
+											}
+											if(item.StatusID==3)
+											{
+												<span style="background-color:#62cdff;color:white">@StatusName</span>
+											}
+											if(item.StatusID==4)
+											{
+												<span style="background-color:#2e4f4f;color:white">@StatusName</span>
+											}
+											if(item.StatusID==5)
+											{
+												<span style="background-color:#898121;color:white">@StatusName</span>
+											}
+											else
+											{
+												<span style="background-color:#aa77ff;color:white">@StatusName</span>
+											}
+										}
+									</td>
+									<td>@item.Keywords</td>
+									<td>@item.Kdv</td>
+									<td>@item.Related</td>
+									<td>@item.Notes</td>
+									<td>
+										<img src="~/resimler/@item.PhotoPath" width="65" height="35">
+									</td>
+										@if (item.Active)
+										{
+											<td style="color:green;font-weight:bold;vertical-align:middle">AKTİF</td>
+										}
+										@if (!item.Active)
+										{
+											<td style="color:red;font-weight:bold;vertical-align:middle">PASİF</td>
+										}
+									<td>
+										<a class="btn btn-arrow-link" asp-action="ProductEdit" asp-route-id="@item.ProductID">Düzenle</a>
+										<a class="btn btn-primary" asp-action="ProductDetails" asp-route-id="@item.ProductID">Detay</a>
+										<a class="btn btn-danger" asp-action="ProductDelete" asp-route-id="@item.ProductID">Sil</a>
+
+									</td>
+								</tr>
+								
+							}
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
